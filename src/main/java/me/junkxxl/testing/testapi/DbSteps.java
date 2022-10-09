@@ -31,7 +31,7 @@ public class DbSteps {
     @Attachment
     public Car getCarByID(int id) throws SQLException {
         return jdbcTemplate.query(
-                        "select c.id , c.mark ,c.model ,c.price ,et.type_name from car c,engine_type et where c.id = ? and c.engine_type_id = et.id",
+                        "select c.id ,c.mark ,c.model ,c.price ,et.type_name from car c join engine_type et on c.engine_type_id = et.id where c.id = ?",
                         new Object[]{id},
                         new BeanPropertyRowMapper<>(Car.class))
                 .get(0);

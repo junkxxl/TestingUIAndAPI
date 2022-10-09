@@ -23,8 +23,8 @@ public class TestApi {
     RestSteps restSteps;
 
     @DisplayName("Проверка добавления пользователя")
-    @Test
     @Description("Проверяем данные созданного пользователя с данными в БД")
+    @Test
     void addUserTest() throws SQLException, JsonProcessingException {
         var userResponse = restSteps.addUser("Alex", "Petrov", 26, "MALE", 999);
         var userGetId = restSteps.getUserId(userResponse.getId());

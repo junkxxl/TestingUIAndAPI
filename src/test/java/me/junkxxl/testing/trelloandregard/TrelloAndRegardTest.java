@@ -30,12 +30,12 @@ public class TrelloAndRegardTest extends Quit {
     void AuthTest() {
         MainPage.open("https://www.regard.ru/")
                 .clickButtonPersonalAccount()
-                .enteringMail("bilose7399@rxcay.com")
-                .enteringPassword("Ab123456789")
+                .enteringMail(System.getenv("Login"))
+                .enteringPassword(System.getenv("Email"))
                 .clickButtonPersonalAccount();
 
         var profilePage = page(ProfilePage.class);
-        profilePage.checkingProfile("bilose7399@rxcay.com");
+        profilePage.checkingProfile(System.getenv("Login"));
 
     }
 
