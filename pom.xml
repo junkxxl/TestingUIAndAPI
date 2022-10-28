@@ -24,7 +24,7 @@
         <selenide>6.8.1</selenide>
         <junit-jupiter-api>5.9.0</junit-jupiter-api>
         <junit-jupiter-engine>5.9.0</junit-jupiter-engine>
-        <spring-boot-starter>2.7.4</spring-boot-starter>
+        <spring-boot-starter>2.7.5</spring-boot-starter>
         <postgresql>42.5.0</postgresql>
         <rest-assured>5.2.0</rest-assured>
         <lombok>1.18.24</lombok>
