@@ -1,20 +1,19 @@
 package me.junkxxl.testing.trelloandregard;
 
-import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
+import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
 
 
 public class ProfilePage {
-    @FindBy(how = How.XPATH, using = "//p[@class='SideUser_userEmail__3g1pi']")
-    SelenideElement elementProfile;
+    String elementProfile =
+            "//p[@class='SideUser_userEmail__3g1pi']";
 
     @Step("Проверяем личный кабинет по почте \"{0}\"")
     public ProfilePage checkingProfile(String mail) {
-        elementProfile.shouldHave(text(mail));
+        $(By.xpath(elementProfile)).shouldHave(text(mail));
         return this;
     }
 }

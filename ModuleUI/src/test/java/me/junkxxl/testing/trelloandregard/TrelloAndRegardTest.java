@@ -1,73 +1,76 @@
 package me.junkxxl.testing.trelloandregard;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.junit5.TextReportExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static com.codeborne.selenide.Selenide.page;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith({TextReportExtension.class})
 @DisplayName("Тесты для работы с UI")
-public class TrelloAndRegardTest extends Quit {
+class TrelloAndRegardTest extends Quit {
 
     @Test
     @DisplayName("Проверка локализации сайта на примере русского и украинского языка")
     void LocalizationTest() {
-        MainPage.open("https://trello.com/")
-                .openLanguagesTab()
-                .selectionLanguage("Русский")
-                .selectButtonFeatures("Возможности")
-                .checkingTranslationOfPopupElement("Автоматизация")
-                .selectionLanguage("Українська")
-                .selectButtonFeatures("Функції")
-                .checkingTranslationOfPopupElement("Шаблони");
+        Selenide.open("https://trello.com/");
+        var mainPage = new MainPage();
+        mainPage.openLanguagesTab();
+        mainPage.selectionLanguage("Русский");
+        mainPage.selectButtonFeatures("Возможности");
+        mainPage.checkingTranslationOfPopupElement("Автоматизация");
+        mainPage.selectionLanguage("Українська");
+        mainPage.selectButtonFeatures("Функції");
+        mainPage.checkingTranslationOfPopupElement("Шаблони");
     }
 
     @Test
     @DisplayName("Проверка аутентификации")
     void AuthTest() {
-        MainPage.open("https://www.regard.ru/")
-                .clickButtonPersonalAccount()
-                .enteringMail(System.getenv("Login"))
-                .enteringPassword(System.getenv("Email"))
-                .clickButtonPersonalAccount();
+        Selenide.open("https://www.regard.ru/");
+        var mainPage = new MainPage();
+        mainPage.clickButtonPersonalAccount();
+        mainPage.enteringMail(System.getenv("Email"));
+        mainPage.enteringPassword(System.getenv("Pass"));
+        mainPage.clickButtonPersonalAccount();
 
-        var profilePage = page(ProfilePage.class);
-        profilePage.checkingProfile(System.getenv("Login"));
-
+        var profilePage = new ProfilePage();
+        profilePage.checkingProfile(System.getenv("Email"));
     }
 
     @Test
     @DisplayName("Проверка сайта, на добавление выбранного CPU с рядом параметров, в корзину")
     void СpuPurchaseTest() {
-        MainPage.open("https://www.regard.ru/")
-                .search("Ryzen 5");
+        Selenide.open("https://www.regard.ru/");
+        MainPage mainPage = new MainPage();
+        mainPage.search("Ryzen 5");
 
-        var foundProductsPage = page(FoundProductsPage.class);
-
+        var foundProductsPage = new FoundProductsPage();
         foundProductsPage.selectingSort("Сначала с низкой ценой");
         String nameProduct = foundProductsPage.saveNameProduct(3);
         foundProductsPage.selectProduct(3);
 
-        ProductPage productPage = page(ProductPage.class);
-        productPage
-                .addBucket()
-                .selectBucket();
-        String resultNameProduct = page(BucketPage.class).saveNameProduct();
+        ProductPage productPage = new ProductPage();
+        productPage.addBucket();
+        productPage.selectBucket();
+
+        BucketPage bucketPage = new BucketPage();
+        String resultNameProduct = bucketPage.saveNameProduct();
         assertEquals(nameProduct, resultNameProduct, "Продукт в корзине не соответствует продукту добавленному изначально");
     }
 
     @Test
     @DisplayName("Проверка сайта, на добавление выбранного USB Flash в корзину")
     void flashStoragePurchaseTest() {
-        MainPage mainPage = MainPage.open("https://www.regard.ru/")
-                .clickButtonCatalog()
-                .selectCategory("Накопители данных")
-                .selectStorageCategory("USB Flash");
+        Selenide.open("https://www.regard.ru/");
+        MainPage mainPage = new MainPage();
+        mainPage.clickButtonCatalog();
+        mainPage.selectCategory("Накопители данных");
+        mainPage.selectStorageCategory("USB Flash");
 
-        UsbFlashPage usbFlashPage = page(UsbFlashPage.class);
+        UsbFlashPage usbFlashPage = new UsbFlashPage();
         usbFlashPage.selectionManufacturer("SanDisk");
         String nameProduct = usbFlashPage.saveNameProduct(6);
         usbFlashPage.addBucket(6);
